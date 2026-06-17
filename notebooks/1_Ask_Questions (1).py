@@ -8,9 +8,8 @@ from collections import Counter
 st.set_page_config(page_title="Q&A", page_icon="ðŸŽ¯")
 st.title("ðŸŽ¯ Question Answering")
 
-# ============================================
+
 # MODEL PATH - Langsung ke Best Model (Scenario 3)
-# ============================================
 MODEL_PATH = "C:\\Users\\hp\\Documents\\SKRIPSI\\Project\\models\\scenario_3\\final_model"
 
 # Confidence thresholds
@@ -120,12 +119,8 @@ def answer_question_multi_chunk(question, chunks, qa_pipeline, top_k=3):
     return results[0], results[:top_k]  # best result + top candidates
 
 
-# ============================================
+
 # HELPER FUNCTIONS - DISPLAY
-# ============================================
-# ============================================
-# HELPER FUNCTIONS - DISPLAY
-# ============================================
 def find_answer_in_original_document(original_text, answer):
     """
     Temukan lokasi jawaban di dokumen asli.
@@ -200,9 +195,9 @@ def create_answer_snippet(text, answer, context_chars=200):
     )
     
     return f"{prefix}{snippet_highlighted}{suffix}"
-# ============================================
+
 # LOAD MODEL
-# ============================================
+
 if not os.path.exists(MODEL_PATH):
     st.error(f"âŒ Model tidak ditemukan di `{MODEL_PATH}`")
     st.info("Pastikan folder model sudah di-copy ke lokasi yang benar.")
@@ -211,9 +206,9 @@ if not os.path.exists(MODEL_PATH):
 with st.spinner("Loading model..."):
     qa_pipeline = load_model(MODEL_PATH)
 
-# ============================================
+
 # MAIN - Input Context & Question
-# ============================================
+
 st.markdown("### ðŸ“„ Input Context")
 
 # Pilihan input: Manual atau Upload
@@ -266,9 +261,9 @@ question = st.text_input(
 if question.strip() and not question.strip().endswith('?'):
     question = question.strip() + '?'
 
-# ============================================
-# PREDIKSI - GANTI BAGIAN INI
-# ============================================
+
+# PREDIKSI 
+
 if st.button("🔍 Get Answer", type="primary"):
     if context and context.strip() and question.strip():
         with st.spinner("Processing..."):
@@ -289,9 +284,9 @@ if st.button("🔍 Get Answer", type="primary"):
                 st.error("❌ Failed to get answer")
                 st.stop()
         
-        # ============================================
+   
         # HASIL PREDIKSI
-        # ============================================
+   
         st.markdown("---")
         st.markdown("### 📊 Hasil Prediksi")
         
@@ -304,9 +299,9 @@ if st.button("🔍 Get Answer", type="primary"):
         with col2:
             st.metric("Confidence Score", f"{confidence:.4f}")
         
-        # ============================================
+      
         # LOKASI JAWABAN
-        # ============================================
+      
         st.markdown("### 📍 Answer Location")
         
         location_info = find_answer_in_original_document(context, best_result['answer'])
